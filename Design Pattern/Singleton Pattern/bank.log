@@ -1,0 +1,11 @@
+2025-03-17 21:43:43,568 - INFO - User withdrew $100 successfully
+2025-03-17 21:43:43,568 - INFO - User withdrew $50 successfully
+2025-03-17 21:44:34,258 - INFO - User withdrew $0 successfully
+2025-03-17 21:44:34,259 - INFO - User withdrew $100 successfully
+2025-03-17 21:44:34,259 - INFO - User withdrew $200 successfully
+2025-03-17 21:44:34,259 - INFO - User withdrew $300 successfully
+2025-03-17 21:44:34,259 - INFO - User withdrew $400 successfully
+2025-03-17 21:47:47,629 - INFO - Application started
+2025-03-17 21:47:47,630 - WARNING - Low disk space warning
+2025-03-17 21:47:47,630 - ERROR - Failed to open file
+2025-03-17 21:47:47,630 - CRITICAL - System crash!
