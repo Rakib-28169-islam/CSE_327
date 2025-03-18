@@ -84,13 +84,14 @@ class PizzaStore:
         self.registry.register_factory("pepperoni",PepperoniPizzaFactory())
     def order_pizza(self,pizza_type):
         factory = self.registry.get_factory(pizza_type)
-        pizza =factory.create_pizza()   
-        if  pizza:
-            pizza.prepare()
-            pizza.bake()
-            pizza.cut()
-            pizza.boxing()
-            return pizza
+        if factory:
+           pizza = factory.create_pizza()   
+           if  pizza:
+               pizza.prepare()
+               pizza.bake()
+               pizza.cut()
+               pizza.boxing()
+               return pizza
         else :
             print(f"Sorry we don't have {pizza_type} pizza")
             return None
@@ -103,6 +104,8 @@ if __name__ == "__main__":
     store.order_pizza("veggie")
     print("\n")
     store.order_pizza("pepperoni")
+    print("\n")
+    store.order_pizza("meat")
     
     
     
