@@ -86,33 +86,37 @@ class PaymentFacade:
             self.__fraud_detector.send_fraud_alert(account_number, "Invalid Account")
             return
         
-        success = False
-        message = ""
-
-        if transition_type == TransitionType.WITHDRAW:
+        def withdraw():
             if self.__bank_service.verifyingFunds(account_number, amount):
-                success = self.__bank_service.withdraw_money(account_number, amount)
-                message = f"withdrawn from {account_number}" if success else f"could not be withdrawn from {account_number}"
-            else:
-                message = "Insufficient funds"
+                if self.__bank_service.withdraw_money(account_number, amount):
+                    return True, f"withdrawn from {account_number}"
+            return False, "Insufficient funds"
 
-        elif transition_type == TransitionType.DEPOSIT:
-            success = self.__bank_service.deposit_money(account_number, amount)
-            message = f"deposited to {account_number}"
+        def deposit():
+            self.__bank_service.deposit_money(account_number, amount)
+            return True, f"deposited to {account_number}"
 
-        elif transition_type == TransitionType.TRANSFER:
+        def transfer():
             if self.__bank_service.verifying_account(to_account) and self.__bank_service.verifyingFunds(account_number, amount):
-                success = self.__bank_service.transfer_money(account_number, to_account, amount)
-                message = f"transferred to {to_account}" if success else f"could not be transferred to {to_account}"
-            else:
-                message = "Insufficient funds or invalid transfer account"
+                if self.__bank_service.transfer_money(account_number, to_account, amount):
+                    return True, f"transferred to {to_account}"
+            return False, "Insufficient funds or invalid transfer account"
 
-        # Send notification and log transition only if successful
+        # Switch-case equivalent using a dictionary
+        operations = {
+            TransitionType.WITHDRAW: withdraw,
+            TransitionType.DEPOSIT: deposit,
+            TransitionType.TRANSFER: transfer
+        }
+
+        success, message = operations.get(transition_type, lambda: (False, "Invalid transaction type"))()
+
         if success:
             self.__notification_service.send_notification(account_number, f"Amount {amount} was successfully {message}")
             self.__transition_logger.log_transition(account_number, transition_type, amount)
         else:
             self.__fraud_detector.send_fraud_alert(account_number, message)
+
 
 if __name__ == "__main__":
     payment_facade = PaymentFacade()
