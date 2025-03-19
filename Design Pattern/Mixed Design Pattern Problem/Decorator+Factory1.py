@@ -1,3 +1,10 @@
+
+"""
+ Decorator + Factory
+ we Have to create Message system which can send message through using Email/SMS system
+ And we have to add HighLight and Link in each sending message
+"""
+
 from abc import ABC,abstractmethod
 class Notification(ABC):
     @abstractmethod

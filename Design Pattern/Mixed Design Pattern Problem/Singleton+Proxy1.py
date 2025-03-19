@@ -1,3 +1,8 @@
+
+"""
+ This problem is a mix of singleton and proxy pattern
+ We Have to create Logger system(singleton)  using Proxy pattern
+"""
 class Logger:
     _instance = None
     
